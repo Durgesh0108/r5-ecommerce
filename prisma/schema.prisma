@@ -9,16 +9,18 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
-  // url      = "mysql://avnadmin:AVNS_ngD5m_jzoA7fBmz7ezS@mysql-54c3db-r5-ecommerce.a.aivencloud.com:25519/defaultdb?ssl-mode=REQUIRED"
+  // provider = "mongodb"
+  provider = "mysql"
+  // url      = env("DATABASE_URL")
+  url      = "mysql://avnadmin:AVNS_ngD5m_jzoA7fBmz7ezS@mysql-54c3db-r5-ecommerce.a.aivencloud.com:25519/defaultdb?ssl-mode=REQUIRED"
   // url      = "mongodb+srv://prajapatidurgesh1518:Durgesh1518@cluster0.8m3xjvz.mongodb.net/e-commerce"
   relationMode = "prisma"
 }
 
 model Store{
   // id String @id @default(uuid())
-  id String  @id @default(auto()) @map("_id") @db.ObjectId
+  // id String  @id @default(auto()) @map("_id") @db.ObjectId
+  id              String    @id @default(uuid())
   name String
   userId String
   billboards Billboard[] @relation("StoreToBillboard")
@@ -28,7 +30,8 @@ model Store{
 }
 
 model Billboard{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  // id String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String @id @default(uuid())
   storeId String
   store Store @relation("StoreToBillboard", fields: [storeId],references: [id])
   label String
