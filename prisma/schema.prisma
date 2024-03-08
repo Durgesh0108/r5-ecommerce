@@ -10,14 +10,15 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  // url      = env("DATABASE_URL")
+  url      = "mysql://avnadmin:AVNS_ngD5m_jzoA7fBmz7ezS@mysql-54c3db-r5-ecommerce.a.aivencloud.com:25519/defaultdb?ssl-mode=REQUIRED"
 }
 
 // datasource db {
 //   // provider = "mongodb"
 //   provider = "mysql"
 //   url      = env("DATABASE_URL")
-//   // url      = "mysql://avnadmin:AVNS_ngD5m_jzoA7fBmz7ezS@mysql-54c3db-r5-ecommerce.a.aivencloud.com:25519/defaultdb?ssl-mode=REQUIRED"
+  // url      = "mysql://avnadmin:AVNS_ngD5m_jzoA7fBmz7ezS@mysql-54c3db-r5-ecommerce.a.aivencloud.com:25519/defaultdb?ssl-mode=REQUIRED"
 //   // url      = "mongodb+srv://prajapatidurgesh1518:Durgesh1518@cluster0.8m3xjvz.mongodb.net/e-commerce"
 //   relationMode = "prisma"
 // }
