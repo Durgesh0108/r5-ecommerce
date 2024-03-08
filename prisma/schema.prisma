@@ -9,13 +9,18 @@ generator client {
 }
 
 datasource db {
-  // provider = "mongodb"
   provider = "mysql"
-  // url      = env("DATABASE_URL")
-  url      = "mysql://avnadmin:AVNS_ngD5m_jzoA7fBmz7ezS@mysql-54c3db-r5-ecommerce.a.aivencloud.com:25519/defaultdb?ssl-mode=REQUIRED"
-  // url      = "mongodb+srv://prajapatidurgesh1518:Durgesh1518@cluster0.8m3xjvz.mongodb.net/e-commerce"
-  relationMode = "prisma"
+  url      = env("DATABASE_URL")
 }
+
+// datasource db {
+//   // provider = "mongodb"
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+//   // url      = "mysql://avnadmin:AVNS_ngD5m_jzoA7fBmz7ezS@mysql-54c3db-r5-ecommerce.a.aivencloud.com:25519/defaultdb?ssl-mode=REQUIRED"
+//   // url      = "mongodb+srv://prajapatidurgesh1518:Durgesh1518@cluster0.8m3xjvz.mongodb.net/e-commerce"
+//   relationMode = "prisma"
+// }
 
 model Store{
   // id String @id @default(uuid())
@@ -26,6 +31,7 @@ model Store{
   billboards Billboard[] @relation("StoreToBillboard")
   categories Category[] @relation("StoreToCategory")
   sizes           Size[]     @relation("StoreToSize")
+  color Color[] @relation("StoreToColor")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -65,6 +71,19 @@ model Size {
   id          String    @id @default(uuid())
   storeId     String    // Foreign Key to Store
   store       Store     @relation("StoreToSize", fields: [storeId], references: [id])
+  name        String
+  value       String
+  // products    Product[] // Relation to Product model
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([storeId])
+}
+
+model Color {
+  id          String    @id @default(uuid())
+  storeId     String    // Foreign Key to Store
+  store       Store     @relation("StoreToColor", fields: [storeId], references: [id])
   name        String
   value       String
   // products    Product[] // Relation to Product model
