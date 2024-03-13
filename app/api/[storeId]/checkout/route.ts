@@ -4,8 +4,6 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import prismadb from "@/lib/prismadb";
 
-// import Razorpay from "razorpay"
-
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
@@ -21,9 +19,6 @@ export async function POST(
   { params }: { params: { storeId: string } }
 ) {
   const { productIds } = await req.json();
-
-  console.log(productIds)
-  console.log(params.storeId)
 
   if (!productIds || productIds.length === 0) {
     return new NextResponse("Product ids are required", { status: 400 });
@@ -68,9 +63,6 @@ export async function POST(
     }
   });
 
-
-
-
   const session = await stripe.checkout.sessions.create({
     line_items,
     mode: 'payment',
@@ -85,19 +77,9 @@ export async function POST(
     },
   });
 
-
+  console.log(session)
 
   return NextResponse.json({ url: session.url }, {
     headers: corsHeaders
   });
-
-  // var instance = new Razorpay({ key_id:`${process.env.RAZORPAY_KEY}`, key_secret: `${process.env.RAZORPAY_KEY}` })
-
-  // const order = instance.orders.create({
-  //   amount: 50000,
-  //   currency: "INR",
-  // })
-
-  // console.log(order)
-  // return NextResponse.json({ data: order })
 };

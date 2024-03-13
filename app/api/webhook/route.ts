@@ -7,7 +7,7 @@ import prismadb from "@/lib/prismadb"
 
 export async function POST(req: Request) {
   const body = await req.text()
-  const signature = headers().get("Stripe-Signature") as string
+  const signature = headers().get("stripe-signature") as string
 
   let event: Stripe.Event
 
@@ -21,8 +21,13 @@ export async function POST(req: Request) {
     return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 })
   }
 
+
   const session = event.data.object as Stripe.Checkout.Session;
   const address = session?.customer_details?.address;
+
+  console.log(session)
+  console.log(address)
+
 
   const addressComponents = [
     address?.line1,
@@ -35,6 +40,7 @@ export async function POST(req: Request) {
 
   const addressString = addressComponents.filter((c) => c !== null).join(', ');
 
+  console.log("session_backend", session)
 
   if (event.type === "checkout.session.completed") {
     const order = await prismadb.order.update({
@@ -60,7 +66,7 @@ export async function POST(req: Request) {
         },
       },
       data: {
-        isArchived: true
+        isArchived: false
       }
     });
   }
