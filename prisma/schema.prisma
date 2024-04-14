@@ -6,12 +6,15 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
   provider = "mysql"
   // url      = env("DATABASE_URL")
-  url      = "mysql://avnadmin:AVNS_ngD5m_jzoA7fBmz7ezS@mysql-54c3db-r5-ecommerce.a.aivencloud.com:25519/defaultdb?ssl-mode=REQUIRED"
+  // url      = "mysql://avnadmin:AVNS_ngD5m_jzoA7fBmz7ezS@mysql-54c3db-r5-ecommerce.a.aivencloud.com:25519/defaultdb?ssl-mode=REQUIRED"
+  url      = "mysql://r5designhub:r5designhub@localhost:3306/r5ecommerce?schema=public"
+  // previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 // datasource db {
@@ -69,6 +72,8 @@ model Category{
 
   @@index([storeId])
   @@index([billboardId])
+
+  @@fulltext([name])
 }
 
 model Size {
@@ -82,6 +87,8 @@ model Size {
   updatedAt   DateTime  @updatedAt
 
   @@index([storeId])
+
+  @@fulltext([name])
 }
 
 model Color {
@@ -95,6 +102,7 @@ model Color {
   updatedAt   DateTime  @updatedAt
 
   @@index([storeId])
+  @@fulltext([name])
 }
 
 model Product {
@@ -121,6 +129,8 @@ model Product {
   @@index([categoryId])
   @@index([sizeId])
   @@index([colorId])
+
+  @@fulltext([name])  
 }
 
 model Image {
